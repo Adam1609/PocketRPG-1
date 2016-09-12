@@ -83,7 +83,7 @@ class RpgCommands extends PluginBase implements CommandExecutor{
               $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.warrior");
               $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
             } else {
-              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start mage if you do.");
+              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start warrior if you do.");
               $timer[$p->getName()] = time();
             }
             return true;
@@ -104,7 +104,7 @@ class RpgCommands extends PluginBase implements CommandExecutor{
               $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.tanker");
               $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
             } else {
-              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start mage if you do.");
+              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start tanker if you do.");
               $timer[$p->getName()] = time();
             }
             return true;
@@ -127,7 +127,7 @@ class RpgCommands extends PluginBase implements CommandExecutor{
             } elseif(!$p->hasPermission("class.special")) {
               $p->sendMessage(TF:: RED . "You do not have permission to access this class! You have to vote to use this class!");
             } else {
-              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start mage if you do.");
+              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start assassin if you do.");
               $timer[$p->getName()] = time();
             }
             return true;
