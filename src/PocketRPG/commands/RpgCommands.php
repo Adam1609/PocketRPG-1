@@ -46,21 +46,26 @@ class RpgCommands extends PluginBase implements CommandExecutor{
         switch(strtolower($args[0])) {
           case "start":
           $this->getOwner()->getServer()->loadLevel($this->getOwner()->config->get("RPGworld"));
+          $timer = array();
           switch(strtolower($args[1])) {
           case "mage":
-            $timer = array();
-            $lastusage = $timer[$p->getName()];
             if($p->hasPermission("class.chosen")) {
               $p->sendMessage(TF:: RED . "You have already picked a class!");
-            } elseif(isset($timer[$p->getName()]) && (time() - $lastusage) <= 20) {
-              $p->sendMessage(TF:: AQUA . "You have joined the world as a mage!");
-              $wand = Item::get(Item::STICK, 0, 1);
-              $p->getInventory()->addItem($wand);
-              $book = Item::get (Item::BOOK, 0, 1);
-              $p->getInventory ()->addItem ($book);
-              $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.chosen");
-              $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.mage");
-              $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
+            } elseif(isset($timer[$p->getName()])) {
+              $lastusage = $timer[$p->getName()];
+              if((time() - $lastusage) <= 20) {
+                $p->sendMessage(TF:: AQUA . "You have joined the world as a mage!");
+                $wand = Item::get(Item::STICK, 0, 1);
+                $p->getInventory()->addItem($wand);
+                $book = Item::get (Item::BOOK, 0, 1);
+                $p->getInventory ()->addItem ($book);
+                $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.chosen");
+                $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.mage");
+                $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
+              } else {
+                $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start mage if you do.");
+                $timer[$p->getName()] = time();
+              }
             } else {
               $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start mage if you do.");
               $timer[$p->getName()] = time();
