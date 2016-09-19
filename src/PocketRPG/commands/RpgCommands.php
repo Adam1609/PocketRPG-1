@@ -46,14 +46,15 @@ class RpgCommands extends PluginBase implements CommandExecutor{
         switch(strtolower($args[0])) {
           case "start":
           $this->getOwner()->getServer()->loadLevel($this->getOwner()->config->get("RPGworld"));
-          $this->timer = array();
+          $confirmmage = array();
+          $confirmwarrior = array();
+          $confirmassassin = array();
+          $confirmtanker = array();
           switch(strtolower($args[1])) {
           case "mage":
             if($p->hasPermission("class.chosen")) {
               $p->sendMessage(TF:: RED . "You have already picked a class!");
-            } elseif(isset($this->timer[$p->getName()])) {
-              $lastusage = $this->timer[$p->getName()];
-              if((time() - $lastusage) <= 20) {
+            } elseif(in_array($p->getName(), $confirmmage)) {
                 $p->sendMessage(TF:: AQUA . "You have joined the world as a mage!");
                 $wand = Item::get(Item::STICK, 0, 1);
                 $p->getInventory()->addItem($wand);
@@ -62,84 +63,72 @@ class RpgCommands extends PluginBase implements CommandExecutor{
                 $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.chosen");
                 $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.mage");
                 $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
-              } else {
-                $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start mage if you do.");
-                $this->timer[$p->getName()] = time();
-              }
             } else {
-              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start mage if you do.");
-              $timer[$p->getName()] = time();
+              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type " . TF::AQUA . "/RPG start mage" . TF::GREEN . " if you are.");
+              array_push($confirmmage, $p->getName());
             }
             return true;
             break;
             
           case "warrior":
-            $timer = array();
-            $lastusage = $timer[$p->getName()];
             if($p->hasPermission("class.chosen")) {
               $p->sendMessage(TF:: RED . "You have already picked a class!");
-            } elseif(isset($timer[$p->getName()]) && (time() - $lastusage) <= 20) {
-              $p->sendMessage(TF:: AQUA . "You have joined the world as a warrior!");
-              $sword = Item::get(Item::IRON_SWORD, 0, 1);
-              $p->getInventory()->addItem($sword);
-              $book = Item::get (Item::BOOK, 0, 1);
-              $p->getInventory ()->addItem ($book);
-              $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.chosen");
-              $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.warrior");
-              $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
+            } elseif(in_array($p->getName(), $confirmwarrior)) {
+                $p->sendMessage(TF:: AQUA . "You have joined the world as a warrior!");
+                $sword = Item::get(Item::IRON_SWORD, 0, 1);
+                $p->getInventory()->addItem($sword);
+                $book = Item::get (Item::BOOK, 0, 1);
+                $p->getInventory ()->addItem ($book);
+                $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.chosen");
+                $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.warrior");
+                $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
             } else {
-              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start warrior if you do.");
-              $timer[$p->getName()] = time();
+              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type " . TF::AQUA . "/RPG start warrior" . TF::GREEN . " if you are.");
+              array_push($confirmwarrior, $p->getName());
+            }
+            return true;
+            break;
+            
+          case "assassin":
+            if($p->hasPermission("class.chosen")) {
+              $p->sendMessage(TF:: RED . "You have already picked a class!");
+            } elseif(in_array($p->getName(), $confirmassassin)) {
+                $p->sendMessage(TF:: AQUA . "You have joined the world as an assassin!");
+                $dagger = Item::get(Item::FEATHER, 0, 1);
+                $p->getInventory()->addItem($dagger);
+                $book = Item::get (Item::BOOK, 0, 1);
+                $p->getInventory ()->addItem ($book);
+                $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.chosen");
+                $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.assassin");
+                $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
+            } else {
+              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type " . TF::AQUA . "/RPG start assassin" . TF::GREEN . " if you are.");
+              array_push($confirmassassin, $p->getName());
             }
             return true;
             break;
             
           case "tanker":
-            $timer = array();
-            $lastusage = $timer[$p->getName()];
             if($p->hasPermission("class.chosen")) {
               $p->sendMessage(TF:: RED . "You have already picked a class!");
-            } elseif(isset($timer[$p->getName()]) && (time() - $lastusage) <= 20) {
-              $p->sendMessage(TF:: AQUA . "You have joined the world as a tanker!");
-              $shield = Item::get(Item::BRICK, 0, 1);
-              $p->getInventory()->addItem($shield);
-              $book = Item::get (Item::BOOK, 0, 1);
-              $p->getInventory ()->addItem ($book);
-              $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.chosen");
-              $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.tanker");
-              $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
+            } elseif(in_array($p->getName(), $confirmtanker)) {
+                $p->sendMessage(TF:: AQUA . "You have joined the world as a tanker!");
+                $shield = Item::get(Item::BRICK, 0, 1);
+                $p->getInventory()->addItem($shield);
+                $book = Item::get (Item::BOOK, 0, 1);
+                $p->getInventory ()->addItem ($book);
+                $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.chosen");
+                $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.tanker");
+                $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
             } else {
-              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start tanker if you do.");
-              $timer[$p->getName()] = time();
-            }
-            return true;
-            break;
-   
-          case "assassin":
-            $timer = array();
-            $lastusage = $timer[$p->getName()];
-            if($p->hasPermission("class.chosen")) {
-              $p->sendMessage(TF:: RED . "You have already picked a class!");
-            } elseif($p->hasPermission("class.special") && isset($timer[$p->getName()]) && (time() - $lastusage) <= 20) {
-              $p->sendMessage(TF:: AQUA . "You have joined the world as an assassin!");
-              $knife = Item::get(Item::FEATHER, 0, 1);
-              $p->getInventory()->addItem($knife);
-              $book = Item::get (Item::BOOK, 0, 1);
-              $p->getInventory ()->addItem ($book);
-              $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.chosen");
-              $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.assassin");
-              $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
-            } elseif(!$p->hasPermission("class.special")) {
-              $p->sendMessage(TF:: RED . "You do not have permission to access this class! You have to vote to use this class!");
-            } else {
-              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type /RPG start assassin if you do.");
-              $timer[$p->getName()] = time();
+              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type " . TF::AQUA . "/RPG start tanker" . TF::GREEN . " if you are.");
+              array_push($confirmtanker, $p->getName());
             }
             return true;
             break;
           }
           break;
-
+          
           case "warp":
             if ($p->hasPermission ("class.chosen")) {
               $p->sendMessage (TF::AQUA . "You warped to the RPG world!");
@@ -147,8 +136,8 @@ class RpgCommands extends PluginBase implements CommandExecutor{
             } else {
               $p->sendMessage(TF::RED . "You haven't chosen a class yet!");
             }
-        }
-    }
-  }
+         }
+      }
+   }
 }
   
