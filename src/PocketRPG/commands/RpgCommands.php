@@ -65,7 +65,7 @@ class RpgCommands extends PluginBase implements CommandExecutor{
                 $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
             } else {
               $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type " . TF::AQUA . "/RPG start mage" . TF::GREEN . " if you are.");
-              $confirmmage[$p->getName()] = null;
+              $confirmmage[$p->getName()] = $p->getName ();
             }
             return true;
             break;
