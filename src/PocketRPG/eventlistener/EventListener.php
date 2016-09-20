@@ -331,6 +331,7 @@ class EventListener extends Main implements Listener {
   
   public function onExpChange(PlayerExperienceChangeEvent $event) {
     $p = $event->getPlayer();
+    if ($p instanceof Player) {
     if($p->getExp() == 170) {
       if($p->hasPermission("class.mage")) {
         $bone = Item::get(Item::BONE, 0, 1); 
@@ -358,6 +359,7 @@ class EventListener extends Main implements Listener {
         return false;
       }
     } 
+   }
   }
   
   public function onBreak(BlockBreakEvent $event) {
