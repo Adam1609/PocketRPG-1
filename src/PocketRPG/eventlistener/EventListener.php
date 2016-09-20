@@ -82,8 +82,10 @@ class EventListener extends Main implements Listener {
     if($event instanceof EntityDamageByEntityEvent) {
         $hit = $event->getEntity();
         $damager = $event->getDamager();
-        $hitparty = new Config ($this->getDataFolder () . "plugins/PocketRPG/party/" . $hit . ".yml");
-        $damagerparty = new Config ($this->getDataFolder () . "plugins/PocketRPG/party/" . $damager . ".yml");
+         if ($damager instanceof Player && $hit instanceof Player) {
+        $hitparty = new Config ($this->getDataFolder () . "plugins/PocketRPG/party/" . $hit->getName () . ".yml");
+        $damagerparty = new Config ($this->getDataFolder () . "plugins/PocketRPG/party/" . $damager->getName () . ".yml");
+       }
         
         if(!$damager instanceof Player){
             return false;
