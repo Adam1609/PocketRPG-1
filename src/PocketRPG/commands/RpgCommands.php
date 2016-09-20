@@ -46,10 +46,10 @@ class RpgCommands extends PluginBase implements CommandExecutor{
         switch(strtolower($args[0])) {
           case "start":
           $this->getOwner()->getServer()->loadLevel($this->getOwner()->config->get("RPGworld"));
-          $confirmmage = array();
-          $confirmwarrior = array();
-          $confirmassassin = array();
-          $confirmtanker = array();
+          $confirmmage = [];
+          $confirmwarrior = [];
+          $confirmassassin = [];
+          $confirmtanker = [];
           switch(strtolower($args[1])) {
           case "mage":
             if($p->hasPermission("class.chosen")) {
