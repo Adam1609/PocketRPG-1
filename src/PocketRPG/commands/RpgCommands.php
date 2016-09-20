@@ -46,15 +46,18 @@ class RpgCommands extends PluginBase implements CommandExecutor{
         switch(strtolower($args[0])) {
           case "start":
           $this->getOwner()->getServer()->loadLevel($this->getOwner()->config->get("RPGworld"));
-          $confirmmage = [];
-          $confirmwarrior = [];
-          $confirmassassin = [];
-          $confirmtanker = [];
+          $confirmmage = array ();
+          $confirmwarrior = array ();
+          $confirmassassin = array ();
+          $confirmtanker = array ();
           switch(strtolower($args[1])) {
           case "mage":
             if($p->hasPermission("class.chosen")) {
               $p->sendMessage(TF:: RED . "You have already picked a class!");
-            } elseif(isset($confirmmage[$p->getName()])) {
+            } elseif(!isset($confirmmage[$p->getName()])) {
+              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type " . TF::AQUA . "/RPG start mage" . TF::GREEN . " if you are.");
+              $confirmmage[$p->getName()] = $p->getName ();
+            } else {
                 $p->sendMessage(TF:: AQUA . "You have joined the world as a mage!");
                 $wand = Item::get(Item::STICK, 0, 1);
                 $p->getInventory()->addItem($wand);
@@ -63,9 +66,6 @@ class RpgCommands extends PluginBase implements CommandExecutor{
                 $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.chosen");
                 $this->getOwner()->getServer()->dispatchCommand(new ConsoleCommandSender(), "setuperm " . $p->getName() . " class.mage");
                 $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
-            } else {
-              $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type " . TF::AQUA . "/RPG start mage" . TF::GREEN . " if you are.");
-              $confirmmage[$p->getName()] = $p->getName ();
             }
             return true;
             break;
