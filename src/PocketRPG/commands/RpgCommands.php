@@ -132,12 +132,11 @@ class RpgCommands extends PluginBase implements CommandExecutor{
           case "warp":
             if ($p->hasPermission ("class.chosen")) {
               $p->sendMessage (TF::AQUA . "You warped to the RPG world!");
-              $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld")->getSafeSpawn());
+              $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
             } else {
               $p->sendMessage(TF::RED . "You haven't chosen a class yet!");
             }
          return true;
-         break;
          }
       }
    }
