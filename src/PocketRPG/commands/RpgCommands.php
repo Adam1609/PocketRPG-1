@@ -54,7 +54,7 @@ class RpgCommands extends PluginBase implements CommandExecutor{
           case "mage":
             if($p->hasPermission("class.chosen")) {
               $p->sendMessage(TF:: RED . "You have already picked a class!");
-            } elseif(in_array($p->getName(), $confirmmage)) {
+            } elseif(isset($confirmmage[$p->getName()])) {
                 $p->sendMessage(TF:: AQUA . "You have joined the world as a mage!");
                 $wand = Item::get(Item::STICK, 0, 1);
                 $p->getInventory()->addItem($wand);
@@ -65,7 +65,7 @@ class RpgCommands extends PluginBase implements CommandExecutor{
                 $p->teleport($this->getOwner()->getServer()->getLevelByName($this->getOwner()->config->get("RPGworld"))->getSafeSpawn());
             } else {
               $p->sendMessage(TF::YELLOW . "Are you SURE you want to choose this class? You can only choose a class once!\n" . TF::GREEN . "Type " . TF::AQUA . "/RPG start mage" . TF::GREEN . " if you are.");
-              array_push($confirmmage, $p->getName());
+              $confirmmage[$p->getName()];
             }
             return true;
             break;
