@@ -136,6 +136,8 @@ class RpgCommands extends PluginBase implements CommandExecutor{
             } else {
               $p->sendMessage(TF::RED . "You haven't chosen a class yet!");
             }
+         return true;
+         break;
          }
       }
    }
