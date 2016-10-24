@@ -139,7 +139,6 @@ class RpgCommands extends PluginBase implements CommandExecutor{
               $this->getOwner()->clearAllQuests($p);
               $this->getOwner()->unsetClass($p);
               $p->removeAllEffects();
-              $p->getInventory()->clearAll();
               $default = $this->getOwner()->getServer()->getDefaultLevel();
               $p->teleport($default->getSafeSpawn());
               $p->setExpLevel(0);
